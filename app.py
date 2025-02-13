@@ -16,17 +16,18 @@ print(AWS_ACCESS_KEY_ID)
 print(AWS_SECRET_ACCESS_KEY)
 print(AWS_REGION)
 # Initialize S3 client with explicit credentials
-s3 = boto3.client(
-    "s3",
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-    region_name=AWS_REGION
-)
+s3_client = boto3.client('s3', 
+                      aws_access_key_id=os.getenv('AWS_ACCESS_KEY'), 
+                      aws_secret_access_key=os.getenv('AWS_SECRET_KEY'),
+                      region_name=os.getenv('AWS_REGION'))
 
 BUCKET_NAME = "sample-bucket-cognito"
 
 @app.route("/process-file", methods=["POST"])
 def process_file():
+    print(os.getenv('AWS_ACCESS_KEY'))
+    print(os.getenv('AWS_SECRET_KEY'))
+    print(os.getenv('AWS_REGION'))
     try:
         # Parse request data (JSON)
         data = request.get_json()
