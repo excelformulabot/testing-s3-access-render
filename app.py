@@ -10,8 +10,11 @@ app = Flask(__name__)
 # Load AWS Credentials explicitly
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")  # Default to us-east-1
+AWS_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-2")  # Default to us-east-1
 
+print(AWS_ACCESS_KEY_ID)
+print(AWS_SECRET_ACCESS_KEY)
+print(AWS_REGION)
 # Initialize S3 client with explicit credentials
 s3 = boto3.client(
     "s3",
