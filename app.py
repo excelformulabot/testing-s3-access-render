@@ -1,4 +1,5 @@
 import json
+import os
 import boto3
 import pandas as pd
 from io import StringIO
@@ -6,10 +7,19 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Initialize S3 client
-s3 = boto3.client("s3")
+# Load AWS Credentials explicitly
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")  # Default to us-east-1
 
-# Define S3 bucket name
+# Initialize S3 client with explicit credentials
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION
+)
+
 BUCKET_NAME = "sample-bucket-cognito"
 
 @app.route("/process-file", methods=["POST"])
