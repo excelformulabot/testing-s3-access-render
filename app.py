@@ -30,9 +30,18 @@ def process_file():
     print(os.getenv('AWS_REGION'))
     try:
         # Parse request data (JSON)
+      
         data = request.get_json()
         file_name = data.get("file_name")  # File to search
         new_file_name = data.get("new_file_name")  # New file name for upload
+
+        csv_url=data.get("csv_url")
+        response = requests.get(csv_url, timeout=30)
+        response.raise_for_status()  # Raise an HTTPError for bad responses
+        csv_data = io.StringIO(response.text)
+        raw_data = pd.read_csv(csv_data)
+        orig_data = raw_data
+        orig_data_len = len(orig_data)
 
         if not file_name or not new_file_name:
             return jsonify({"error": "Missing file_name or new_file_name"}), 400
@@ -71,7 +80,8 @@ def process_file():
                 "original_file": file_key,
                 "new_file": new_file_key,
                 "rows": len(df),
-                "columns": list(df.columns)
+                "columns": list(df.columns),
+                "orig_data_len": orig_data_len
             })
 
         # If it's not a CSV, just return file details
