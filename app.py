@@ -5,6 +5,7 @@ import pandas as pd
 from io import StringIO
 from flask import Flask, request, jsonify
 import requests
+import io
 
 app = Flask(__name__)
 
