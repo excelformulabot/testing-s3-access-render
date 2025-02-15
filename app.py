@@ -4,6 +4,7 @@ import boto3
 import pandas as pd
 from io import StringIO
 from flask import Flask, request, jsonify
+import requests
 
 app = Flask(__name__)
 
