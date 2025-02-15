@@ -36,12 +36,15 @@ def process_file():
         new_file_name = data.get("new_file_name")  # New file name for upload
 
         csv_url=data.get("csv_url")
+        print(f"Given S3 Url to check the access : {csv_url}")
         response = requests.get(csv_url, timeout=30)
         response.raise_for_status()  # Raise an HTTPError for bad responses
         csv_data = io.StringIO(response.text)
         raw_data = pd.read_csv(csv_data)
         orig_data = raw_data
         orig_data_len = len(orig_data)
+        print(f"length of file and able to access : {orig_data_len}")
+        
 
         if not file_name or not new_file_name:
             return jsonify({"error": "Missing file_name or new_file_name"}), 400
